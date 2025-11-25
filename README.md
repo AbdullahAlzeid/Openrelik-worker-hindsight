@@ -5,7 +5,7 @@
 
 
 ## Deploy
-Update your `config.env` file to set OPENRELIK_WORKER_HINDSIGHT_VERSION to the tagged release version you want to use (or you can use the latest tag). Then add the below configuration to the OpenRelik docker-compose.yml file.
+Update your `config.env` file to set OPENRELIK_WORKER_HINDSIGHT_VERSION to the tagged release version you want to use (or you can use the "latest" tag). Then add the below configuration to the OpenRelik docker-compose.yml file.
 
 ```
 openrelik-worker-hindsight:
