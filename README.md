@@ -22,10 +22,5 @@ openrelik-worker-hindsight:
       # - 5678:5678 # For debugging purposes.
 ```
 
-## Test
-```
-uv sync --group test
-uv run pytest -s --cov=.
-```
 ## Credits
 The tool utlized by this worker is developed by @obsidianforensics
