@@ -1,15 +1,15 @@
 [project]
 authors = [
-    {name = "YOUR NAME", email = "email@example.com"},
+    {name = "Abdullah Al Zeid", email = "email@example.com"},
 ]
 requires-python = "<4.0,>=3.11"
 dependencies = [
     "celery[redis]<6.0.0,>=5.4.0",
     "openrelik-worker-common<1.0.0,>=0.16.0",
 ]
-name = "openrelik-worker-TEMPLATE-WORKER-NAME"
+name = "openrelik-worker-hindsight"
 version = "0.1.0"
-description = "Description of the worker"
+description = "Parses browser artifacts with Hindsight from a supplied ZIP archive (Native Kape or Velociraptor triage) and a provided profile browser path"
 readme = "README.md"
 
 [dependency-groups]

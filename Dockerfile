@@ -5,10 +5,14 @@ FROM ubuntu:24.04
 # the docker container.
 RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
 
-# Install poetry and any other dependency that your worker needs.
+# Install utilities needed for this worker.
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    curl \
-    # Add your dependencies here
+    python3-pip \
+    python3-venv \
+    p7zip-full \
+    git \
+    unzip \
+    tzdata \
     && rm -rf /var/lib/apt/lists/*
 
 # Configure debugging
@@ -20,23 +24,23 @@ ENV OPENRELIK_PYDEBUG_PORT=${OPENRELIK_PYDEBUG_PORT:-5678}
 # Set working directory
 WORKDIR /openrelik
 
-# Install the latest uv binaries
-COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
-
-# Copy poetry toml and install dependencies
-COPY uv.lock pyproject.toml .
-
-# Install the project's dependencies using the lockfile and settings
-RUN uv sync --locked --no-install-project --no-dev
-
-# Copy project files
+# Copy project files and install Python deps via uv (PEP 621)
 COPY . ./
+RUN python3 -m venv /openrelik/.venv \
+    && . /openrelik/.venv/bin/activate \
+    && pip install --no-cache-dir uv \
+    && uv sync
+ENV VIRTUAL_ENV=/openrelik/.venv PATH="/openrelik/.venv/bin:$PATH"
 
-# Installing separately from its dependencies allows optimal layer caching
-RUN uv sync --locked --no-dev
+# ----------------------------------------------------------------------
+# Install hindsight (browser artifact parser)
+# ----------------------------------------------------------------------
+# Install into the virtualenv using its pip
+RUN . /openrelik/.venv/bin/activate \
+    && pip install --no-cache-dir pyhindsight \
+    && pip install --no-cache-dir git+https://github.com/cclgroupltd/ccl_chromium_reader.git \
+    && chmod +x /openrelik/.venv/bin/hindsight.py /openrelik/.venv/bin/hindsight_gui.py
+# ----------------------------------------------------------------------
 
-# Install the worker and set environment to use the correct python interpreter.
-ENV PATH="/openrelik/.venv/bin:$PATH"
-
-# Default command if not run from docker-compose (and command being overidden)
-CMD ["celery", "--app=src.tasks", "worker", "--task-events", "--concurrency=1", "--loglevel=DEBUG"]
+# Default command if not run from docker-compose (and command being overridden)
+CMD ["celery", "--app=src.hindsight_task", "worker", "--task-events", "--concurrency=1", "--loglevel=DEBUG", "-Q", "openrelik-worker-hindsight"]

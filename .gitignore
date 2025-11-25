@@ -121,14 +121,37 @@ celerybeat.pid
 # SageMath parsed files
 *.sage.py
 
-# Environments
-.env
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
+# Local virtualenv/cache
+.venv/
+.uvcache/
+
+# Tool/IDE
+.vscode/
+.idea/
+
+# Test/cache artifacts
+.pytest_cache/
+.coverage
+.coverage.*
+.cache
+coverage.xml
+*.log
+__pycache__/
+
+# Editors/OS cruft
+*.swp
+*.tmp
+*.ipynb
+.python-version
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Icon?
+ehthumbs.db
+Thumbs.db
+bootstrap.sh
 
 # Spyder project settings
 .spyderproject
@@ -163,3 +186,6 @@ cython_debug/
 
 # Tilt config
 Tiltfile
+.devcontainer/devcontainer.json
+.python-version
+.coveragerc
