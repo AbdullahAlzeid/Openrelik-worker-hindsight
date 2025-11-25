@@ -23,4 +23,4 @@ openrelik-worker-hindsight:
 ```
 
 ## Credits
-The tool utlized by this worker is developed by @obsidianforensics
+The tool utlized by this worker is developed by [@obsidianforensics](https://github.com/obsidianforensics)
