@@ -1,4 +1,6 @@
 # Openrelik worker hindsight
+![Openrelik Hindsight Worker](Pics/openrelik_hindsight_repo.png)
+
 ## Description
  Parses chromium browsers artifacts with Hindsight parser from a supplied ZIP archive (Native Kape or Velociraptor triage) and a provided profile browser path. The worker will use the provided profile browser path through the task config to create a glob and search through the triage and if the profile is found it's passed to the
  tool to execute the following command `hindsight.py -i [Path]`. Worker will provide a txt file including tool's stdout and an xlsx file which is the tool's parsed output. Worker also accepts passwords for protected archives through task config.
